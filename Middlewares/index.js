@@ -44,6 +44,8 @@ function calAvgTime_handleRequest(req,res,next){
     
     next()
 }
+
+app.use(express.json())
 app.use(calculatingRequest) // it'll tigger after every request
 
 app.get('/',(req,res)=>{
@@ -52,6 +54,15 @@ app.get('/',(req,res)=>{
 
 app.get('/health-check',checkUser,checkKideny,(req,res)=>{
     res.send('Your kidney is fine')
+})
+
+
+// Global Catches [Now other errors will be hidden only this message will be showed up]
+
+app.use(function(err,req,res,next){
+    res.json({
+        msg : "Sorry!!Something is up with our server!"
+    })
 })
 
 app.listen(port,()=>{
